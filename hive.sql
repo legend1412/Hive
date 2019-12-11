@@ -530,3 +530,24 @@ from priors pr left outer join orders od
 on pr.order_id=od.order_id
 group by product_id,user_id
 limit 20;
+ product_id	uv	pv	reord_cnt
+1	1	1	0
+1	1	1	0
+1	1	6	5
+1	1	1	0
+1	1	2	1
+1	1	2	1
+1	1	1	0
+1	1	2	1
+1	1	1	0
+1	1	18	17
+1	1	1	0
+1	1	1	0
+1	1	1	0
+1	1	1	0
+1	1	4	3
+1	1	4	3
+1	1	4	3
+1	1	1	0
+1	1	1	0
+1	1	1	0
