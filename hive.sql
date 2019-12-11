@@ -484,9 +484,13 @@ eval_set string,
 order_number string,
 order_hour_of_day string,
 days_since_prior_order string
-) partition by (order_dow string)
+)partition by (order_dow string)
 row format delimited fields terminated by '\t';
 --order_dow进行分区(order_dow里面有多少个值)
 --动态插入分区表
 set hive.exec.dynamic.partition=true;--使用动态分区
-set hive.exec.dynamic.partiton.mode=nonstrict;--使用无限制模式
+set hive.exec.dynamic.partition.mode=nonstrict;--使用无限制模式
+--overwrite属于覆盖
+insert overwrite table order_part partition (order_dow)
+select order_id,user_id,eval_set,order_number,order_hour_of_day,days_since_prior_order,order_dow
+from orders;
