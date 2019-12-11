@@ -504,3 +504,29 @@ select product_id,count(distinct user_id) as uv
 from priors pr join orders od
 on pr.order_id=od.order_id
 group by product_id,user_id
+--reorder数量
+select product_id,sum(cast(reordered as int )) as reord_cnt
+from priors
+group by product_id
+--合并上面的三个sql为1个sql
+select product_id,count(*) as pv,
+sum(cast(reordered as int )) as reord_cnt,
+from priors 
+group by product_id
+
+--直接join得到宽表进行统计(eval_train无法统计)
+select product_id,count(distinct user_id) as uv,
+count(1) as pv,
+sum(cast(reordered as int)) as reord_cnt
+from priors pr join orders od
+on pr.order_id=od.order_id
+group by product_id,user_id
+limit 20;
+
+select product_id,count(distinct user_id) as uv,
+count(1) as pv,
+sum(cast(reordered as int)) as reord_cnt
+from priors pr left outer join orders od
+on pr.order_id=od.order_id
+group by product_id,user_id
+limit 20;
