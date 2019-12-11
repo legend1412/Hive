@@ -484,13 +484,23 @@ eval_set string,
 order_number string,
 order_hour_of_day string,
 days_since_prior_order string
-)partition by (order_dow string)
+)partitioned by (order_dow string)
 row format delimited fields terminated by '\t';
 --order_dow进行分区(order_dow里面有多少个值)
 --动态插入分区表
 set hive.exec.dynamic.partition=true;--使用动态分区
 set hive.exec.dynamic.partition.mode=nonstrict;--使用无限制模式
 --overwrite属于覆盖
-insert overwrite table order_part partition (order_dow)
+insert overwrite table orders_part partition (order_dow)
 select order_id,user_id,eval_set,order_number,order_hour_of_day,days_since_prior_order,order_dow
 from orders;
+--统计商品的销量（pv），购买用户数（uv），reorder数
+--pv
+select product_id,count(*) as pv
+from priors
+group by product_id
+--uv sql:distinct,pandas:unique,spark:distinct
+select product_id,count(distinct user_id) as uv
+from priors pr join orders od
+on pr.order_id=od.order_id
+group by product_id,user_id
