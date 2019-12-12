@@ -551,3 +551,9 @@ limit 20;
 1	1	1	0
 1	1	1	0
 1	1	1	0
+--每个用户购买的product商品去重后的集合数据（用字符串表示以‘,’分割）
+select user_id,concat_ws(',',collect_list(product_id)) as prod_set
+from priors pr join orders od
+on pr.order_id=od.order_id
+group by user_id
+limit 10;
