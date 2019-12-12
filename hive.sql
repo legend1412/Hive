@@ -1,4 +1,4 @@
---1、建库
+--1、建库 
 create database badou;
 --2、建表
 create table article(sentence string) 
