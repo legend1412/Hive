@@ -118,3 +118,22 @@ ordCnt.collectAsList()
 df.select("order_dow").distinct.show()
 ordCnt.selectExpr("max(count) as max_cnt").show()
 var priors = spark.sql("select * from badou.priors")
+val orderpriors = df.join(priors,"order_id")
+orderpriors.show()
+
+---jieba
+create table news_seg(sentence string);
+load data local inpath '/usr/usrdata/allfiles.txt' into table news_seg;
+
+--重新对中文进行切词
+--去空格替代 hive replace
+select regexp_replace(sentence,' ','') from news_seg limit 2;
+
+--第一列sentence 新闻的文本信息，第二列label，新闻标签
+select split(regexp_replace(sentence,' ',''),'##@@##')[0] as sentence,
+split(regexp_replace(sentence,' ',''),'##@@##')[1] as label 
+ from news_seg limit 2;
+ --把数据放入新的表中(news_noseg)
+ create table news_noseg as select split(regexp_replace(sentence,' ',''),'##@@##')[0] as sentence,
+split(regexp_replace(sentence,' ',''),'##@@##')[1] as label 
+ from news_seg;
