@@ -107,3 +107,14 @@ for(col<-df.colums){
 	df.groupBy(col).count().show()
 }
 <-等价于in
+
+--spark
+var df = spark.sql("select * from badou.orders")
+var ordCnt = df.groupBy("order_dow").count()
+ordCnt.show()
+ordCnt.cache
+ordCnt.unpersist
+ordCnt.collectAsList()
+df.select("order_dow").distinct.show()
+ordCnt.selectExpr("max(count) as max_cnt").show()
+var priors = spark.sql("select * from badou.priors")
