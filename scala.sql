@@ -137,3 +137,5 @@ split(regexp_replace(sentence,' ',''),'##@@##')[1] as label
  create table news_noseg as select split(regexp_replace(sentence,' ',''),'##@@##')[0] as sentence,
 split(regexp_replace(sentence,' ',''),'##@@##')[1] as label 
  from news_seg;
+
+select * from news_noseg limit 10;
