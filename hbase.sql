@@ -17,7 +17,7 @@ create table h_orders(order_id string,user_id string,order_dow string)
 stored by 'org.apache.hadoop.hive.hbase.HBaseStorageHandler'
 with serdeproperties("hbase.columns.mapping"=":key,id:order,num:dow")
 tblproperties("hbase.table.name"="hive.orders");
-
+ 
 --不兼容,hive_1.2.2与hbase_1.3.1不兼容，重新对hive-hbase-handler-1.2.2.jar进行编译
 --FAILED: Execution Error, return code 1 from org.apache.hadoop.hive.ql.exec.DDLTask. 
 --org.apache.hadoop.hbase.HTableDescriptor.addFamily(Lorg/apache/hadoop/hbase/HColumnDescriptor;)V
